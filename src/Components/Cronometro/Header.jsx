@@ -3,9 +3,9 @@ import React, { useState, useEffect } from "react"
 
 function Header() {
 
-    let [minutes, setMinutes] = useState(59)
+    let [minutes, setMinutes] = useState(0)
     let [hours, setHours] = useState(0)
-    let [seconds, setSeconds] = useState(50)
+    let [seconds, setSeconds] = useState(0)
     let intervalSeconds;
 
     function start() {
@@ -34,6 +34,16 @@ function Header() {
         }
     }
 
+    function stop() {
+
+    }
+
+    function clear() {
+        setHours(hours = 0)
+        setMinutes(minutes = 0)
+        setSeconds(seconds = 0)
+    }
+
     return(
         <S.StyleHeader>
             <S.Div>
@@ -43,10 +53,10 @@ function Header() {
                 <S.Button onClick={start}>
                     INICIAR
                 </S.Button>
-                <S.Button>
+                <S.Button onClick={stop}>
                     PARAR
                 </S.Button>
-                <S.Button>
+                <S.Button onClick={clear}>
                     ZERAR
                 </S.Button>
                 </S.Section>
