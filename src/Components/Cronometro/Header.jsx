@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react"
 
 function Header() {
 
-    let [minutes, setMinutes] = useState(0)
+    let [minutes, setMinutes] = useState(59)
     let [hours, setHours] = useState(0)
     let [seconds, setSeconds] = useState(50)
     let intervalSeconds;
@@ -13,6 +13,7 @@ function Header() {
         intervalSeconds = setInterval(() => {
             setSeconds(seconds += 1)
             startMinutes()
+            startHours()
         }, 1000)   
     }
     
@@ -20,9 +21,16 @@ function Header() {
     function startMinutes() {
         
         if(seconds == 60) {
-            clearInterval(intervalSeconds)
             setMinutes(minutes += 1)
             setSeconds(seconds = 0)
+        }
+    }
+
+    function startHours() {
+        if(minutes == 60) {
+            setHours(hours += 1)
+            setMinutes(minutes = 0)
+
         }
     }
 
