@@ -1,49 +1,48 @@
 import * as S from "./HeaderStyle.jsx"
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 
 function Header() {
-
+    let [seconds, setSeconds] = useState(0)
     let [minutes, setMinutes] = useState(0)
     let [hours, setHours] = useState(0)
-    let [seconds, setSeconds] = useState(0)
-    let intervalSeconds;
+    let [intervalSeconds, setIntervalSeconds] = useState(null)
 
     function start() {
+        if (!intervalSeconds) {
+            const newInterval = setInterval(() => {
+                setSeconds(prevSeconds => {
+                    if (prevSeconds === 59) {
+                        setMinutes(prevMinutes => {
+                            if (prevMinutes === 59) {
+                                setHours(prevHours => prevHours + 1)
+                                return 0
+                            }
+                            return prevMinutes + 1
+                        });
+                        return 0
+                    }
+                    return prevSeconds + 1
+                });
+            }, 1000);
 
-        intervalSeconds = setInterval(() => {
-            setSeconds(seconds += 1)
-            startMinutes()
-            startHours()
-        }, 1000)   
-    }
-    
-    
-    function startMinutes() {
-        
-        if(seconds == 60) {
-            setMinutes(minutes += 1)
-            setSeconds(seconds = 0)
-        }
-    }
-
-    function startHours() {
-        if(minutes == 60) {
-            setHours(hours += 1)
-            setMinutes(minutes = 0)
-
+            setIntervalSeconds(newInterval)
         }
     }
 
     function stop() {
-
+        if (intervalSeconds) {
+            clearInterval(intervalSeconds)
+            setIntervalSeconds(null)
+        }
     }
 
     function clear() {
-        setHours(hours = 0)
-        setMinutes(minutes = 0)
-        setSeconds(seconds = 0)
+        stop()
+        setHours(0)
+        setMinutes(0)
+        setSeconds(0)
     }
-
+            
     return(
         <S.StyleHeader>
             <S.Div>
